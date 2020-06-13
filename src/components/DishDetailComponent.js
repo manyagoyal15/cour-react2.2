@@ -3,44 +3,72 @@ import {Card,CardImg,CardImgOverlay,CardTitle,CardText,CardBody} from 'reactstra
 import { Media } from 'reactstrap';
 
 class DishDetail extends Component {
-    render() {
-        const sdish=this.props.sdish;
-        const comments=this.props.sdish.comments.map((com)=>{
+    
+    renderDish(dish){
+        if(dish!=null){
             return(
-                    <div key={com.id} className="m-1">
-                        <Media tag="li">
-                            <Media body className="ml-5">
-                                <p>{com.comment}</p>
-                                <p>--{com.author},{com.date}</p>
-                                
-                            </Media>
-                        </Media>
-                    </div>
-            );
-        }
-
-        );
-        return (
-            <div className="container">
-                <div className="row">
-                    <div  className="col-12 col-md-5 m-1">
-                        <Card>
-                            <CardImg width="100%" src={sdish.image} alt={sdish.name} />
-                            <CardBody>
-                                <CardTitle>{sdish.name}</CardTitle>
-                                <CardText>{sdish.description}</CardText>
-                            </CardBody>
-                        </Card>
-                    </div>
-                    <Media list>
-                        <h4>Comments</h4>
-                        {comments}
-                        
-                    </Media>
+                <div className="col-12 col-md-5 m-1 mt-3">
+                <Card>
+                    <CardImg width="100%" src={dish.image} alt={dish.name} />
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
                 </div>
-            </div>
-        )
+            )
+        }else{
+            return(
+                <div></div>
+            )
+        }
+    }
+    renderComments(comments){
+        if(comments!=null)
+            return(
+                <div className="col-12 col-md-5 m-1 mt-3">
+                    <h4>Comments</h4>
+                    <ul className="list-unstyled">
+                        {comments.map((comment)=>{
+                            return(
+                                <li key={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>--{comment.author}</p>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            )
+            else{
+                return(
+                    <div></div>
+                );
+            }
+    }
+    render() {
+        const dish=this.props.dish;
+            if(dish!=null)
+            return(
+                
+                <div className="row">
+                    
+                        {this.renderDish(dish)}
+                        {this.renderComments(dish.comments)}
+                    
+                </div>
+                
+                );
+            else{
+            return(
+                <div></div>
+            )
+        }
+            
+            
+            
+        
     }
 }
 
-export default DishDetail
+export default DishDetail;
