@@ -4,6 +4,7 @@ import { Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -25,7 +26,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
         handleSubmit(values){
             console.log('Current State is: ' + JSON.stringify(values));
             alert('Current State is: ' + JSON.stringify(values));
-            this.props.addComment(this.props.dishId, values.rating, values.name, values.comment);
+            this.props.postComment(this.props.dishId, values.rating, values.name, values.comment);
         }
         render(){
             return(
@@ -102,7 +103,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
             return(
                 
                 <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
+                    <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>
@@ -116,7 +117,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
             )
         }
     }
-    function RenderComments({comments,addComment,dishId}){
+    function RenderComments({comments,postComment,dishId}){
         if(comments!=null)
             return(
                 <div>
@@ -131,7 +132,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                             );
                         })}
                     </ul>
-                    <CommentForm dishId={dishId} addComment={addComment} />
+                    <CommentForm dishId={dishId} postComment={postComment} />
                     </div>
             )
             else{
@@ -180,7 +181,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                             <RenderDish dish={props.dish} />
                         </div>
                         <div className="col-12 col-md-5 m-1">
-                            <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
+                            <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id} />
                         </div>
                     </div>
                 </div> 
